@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="x5-fullscreen" content="true">
+		<meta name="full-screen" content="yes">
+		<meta name="format-detection" content="telephone=no">
+		<meta http-equiv="x-rim-auto-match" content="none">
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<title>联系我们</title>
+
+		<!-- link -->
+		<link rel="stylesheet" href="css/style.css" />
+
+	</head>
+
+	<body>
+		<header class="bottom-gray clearfix">
+			<i class="back-box" onmousedown="javascript:history.go(-1)"></i>
+			<span>联系我们</span>
+			<i class="menu-box"></i>
+		</header>
+		<div class="poup-box">
+			<div class="menu-box">
+				<nav class="menu-box-list clearfix">
+					<a href="index.html">首页</a>
+					<a href="about.html">公司介绍</a>
+					<a href="doctor.html">医生集团</a>
+					<a href="business.html">业务平台</a>
+					<a href="recruit.html">招聘信息</a>
+					<a href="news.html">新闻资讯</a>
+					<a href="contact.html" class="on">联系我们</a>
+				</nav>
+			</div>
+		</div>
+		<section class="contact-box">
+			<div class="contact-box-name">
+				<span></span> 杭州杏香园健康管理有限责任公司
+			</div>
+			<div class="contact-box-way">
+				<span>
+					<img src="images/icon/icon-tel.png" />
+				</span>
+				<span>
+					<i>客服电话：</i>
+					<i><a href="tel:0571-86533083">0571-86533083</a>（周一至周五8:30-17:30)</i>
+				</span>
+			</div>
+			<div class="contact-box-way">
+				<span>
+					<img src="images/icon/icon-ad.png" />
+				</span>
+				<span>
+					地址：浙江省杭州市西湖区紫霞街80号西溪谷国际商务中心F座10层
+				</span>
+			</div>
+		</section>
+		<section>
+			<div class="map" id="map" style="width:auto;height:300px;border:#ccc solid 1px;font-size:12px">
+			</div>
+		</section>
+		<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=qoMMylLTjV4V8GPHZtoEivQcqotK4zgc"></script>
+		<script type="text/javascript" src="js/public.js"></script>
+		<script type="text/javascript">
+			//创建和初始化地图函数：
+			function initMap() {
+				createMap(); //创建地图
+				setMapEvent(); //设置地图事件
+				//addMapControl(); //向地图添加控件
+				addMapOverlay(); //向地图添加覆盖物
+			}
+
+			function createMap() {
+				map = new BMap.Map("map");
+				map.centerAndZoom(new BMap.Point(120.080275, 30.296671), 17);
+			}
+
+			function setMapEvent() {
+				map.enableScrollWheelZoom();
+				map.enableKeyboard();
+				map.enableDragging();
+				map.enableDoubleClickZoom()
+			}
+
+			function addClickHandler(target, window) {
+				target.addEventListener("click", function() {
+					target.openInfoWindow(window);
+				});
+			}
+
+			function addMapOverlay() {
+				var markers = [{
+					content: "浙江省杭州市西湖区紫霞街80号西溪谷国际商务中心F座10层",
+					title: "杭州杏香园健康管理有限责任公司 ",
+					imageOffset: {
+						width: 0,
+						height: 3
+					},
+					position: {
+						lat:30.296324,
+						lng:120.080389
+					}
+				}];
+				for(var index = 0; index < markers.length; index++) {
+					var point = new BMap.Point(markers[index].position.lng, markers[index].position.lat);
+					var marker = new BMap.Marker(point, {
+						icon: new BMap.Icon("images/icon/position.png", new BMap.Size(47, 65), {
+							imageOffset: new BMap.Size(0, 0)
+						})
+					});
+					var label = new BMap.Label(markers[index].title, {
+						offset: new BMap.Size(25, 5)
+					});
+					var opts = {
+						width: 200,
+						title: markers[index].title,
+						enableMessage: false
+					};
+					var infoWindow = new BMap.InfoWindow(markers[index].content, opts);
+					marker.setLabel(label);
+					addClickHandler(marker, infoWindow);
+					map.addOverlay(marker);
+				};
+			}
+			//向地图添加控件
+			//			function addMapControl() {
+			//				var scaleControl = new BMap.ScaleControl({
+			//					anchor: BMAP_ANCHOR_TOP_LEFT
+			//				});
+			//				scaleControl.setUnit(BMAP_UNIT_IMPERIAL);
+			//				map.addControl(scaleControl);
+			//				var navControl = new BMap.NavigationControl({
+			//					anchor: BMAP_ANCHOR_TOP_LEFT,
+			//					type: 0
+			//				});
+			//				map.addControl(navControl);
+			//				var overviewControl = new BMap.OverviewMapControl({
+			//					anchor: BMAP_ANCHOR_BOTTOM_RIGHT,
+			//					isOpen: false
+			//				});
+			//				map.addControl(overviewControl);
+			//			}
+			var map;
+			initMap();
+		</script>
+		<script>
+			$(window).load(function(){
+				var maph = $(window).height() - $('header').outerHeight(true) - $('.contact-box').outerHeight(true);
+				$('.map').height(maph)
+			})
+		</script>
+	</body>
+
+</html>
